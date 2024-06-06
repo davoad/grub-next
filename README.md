@@ -2,7 +2,7 @@
 
 ## TODO
 
-- [ ] Navigation
+- [x] Navigation
 - [ ] Clerk authentication
 - [ ] Recipes home page - list recipes with mock data
 - [ ] Add Vercel Postgres
