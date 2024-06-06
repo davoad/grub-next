@@ -3,7 +3,7 @@
 ## TODO
 
 - [x] Navigation
-- [ ] Clerk authentication
+- [x] Clerk authentication
 - [ ] Recipes home page - list recipes with mock data
 - [ ] Add Vercel Postgres
 - [ ] Add Drizzle ORM
