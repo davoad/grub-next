@@ -44,13 +44,19 @@ export const recipes = createTable("recipes", {
   updatedAt: timestamp("updated_at", { mode: "date" }),
 });
 
+export const recipesRelations = relations(recipes, ({ many }) => ({
+  ratings: many(ratings),
+}));
+
 export const ratings = createTable("ratings", {
   id: serial("id").primaryKey().notNull(),
   value: integer("value").notNull(),
   title: varchar("title"),
   comments: varchar("comments"),
   userId: varchar("user_id"),
-  recipeId: integer("recipe_id"),
+  recipeId: integer("recipe_id").references(() => recipes.id, {
+    onDelete: "set null",
+  }),
   createdAt: timestamp("created_at", { mode: "date" })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),

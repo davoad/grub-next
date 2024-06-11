@@ -1,6 +1,6 @@
 import { db } from "@/db/drizzle";
-import { eq } from "drizzle-orm";
-import { recipes, publications } from "@/db/schema";
+import { eq, avgDistinct } from "drizzle-orm";
+import { recipes, publications, ratings } from "@/db/schema";
 export async function getRecipes() {
   const data = await db
     .select({
@@ -14,9 +14,12 @@ export async function getRecipes() {
       publicationEdition: publications.edition,
       pageNumber: recipes.pageNumber,
       author: publications.author,
+      rating: avgDistinct(ratings.value).mapWith(Number),
     })
     .from(recipes)
-    .leftJoin(publications, eq(recipes.publicationId, publications.id));
+    .leftJoin(publications, eq(recipes.publicationId, publications.id))
+    .leftJoin(ratings, eq(recipes.id, ratings.recipeId))
+    .groupBy(recipes.id, publications.id);
 
   return { data };
 }

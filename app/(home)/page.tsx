@@ -69,7 +69,7 @@ export default function Home() {
                         className="h-5 w-5 fill-yellow-300 text-gray-400"
                         aria-hidden="true"
                       />
-                      5
+                      {recipe.rating ?? "NA"}
                     </a>
                   </div>
                 </div>
