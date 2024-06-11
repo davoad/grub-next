@@ -6,6 +6,7 @@ import {
   timestamp,
   integer,
   text,
+  char,
 } from "drizzle-orm/pg-core";
 
 export const createTable = pgTableCreator((name) => `goodgrub_${name}`);
@@ -26,6 +27,7 @@ export const recipes = createTable("recipes", {
   name: varchar("name").notNull(),
   pageNumber: integer("page_number"),
   publicationId: integer("publication_id"),
+  url: char("url", { length: 256 }),
   tags: text("tags").default("{}").array(),
   preparationTime: integer("preparation_time"),
   cookingTime: integer("cooking_time"),
@@ -45,5 +47,5 @@ export const ratings = createTable("ratings", {
   createdAt: timestamp("created_at", { mode: "date" })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: timestamp("updated_at", { mode: "date" }).notNull(),
+  updatedAt: timestamp("updated_at", { mode: "date" }),
 });

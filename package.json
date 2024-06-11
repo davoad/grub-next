@@ -6,7 +6,9 @@
     "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:push": "bunx drizzle-kit push",
+    "db:seed": "bun ./db/seed.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^5.1.4",
