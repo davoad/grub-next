@@ -4,7 +4,7 @@ export let seedRatings = [
     value: 4,
     title: "Yummy!",
     comments: "A consistent favourite",
-    userId: 3,
+    userId: "3",
     recipeId: 5,
   },
   {
@@ -12,7 +12,7 @@ export let seedRatings = [
     value: 5,
     title: "K",
     comments: "Delicious!",
-    userId: 4,
+    userId: "4",
     recipeId: 10,
   },
   {
@@ -20,7 +20,7 @@ export let seedRatings = [
     value: 3,
     title: "K",
     comments: "Best when baked in a convection oven setting.",
-    userId: 4,
+    userId: "4",
     recipeId: 5,
   },
   {
@@ -28,7 +28,7 @@ export let seedRatings = [
     value: 4,
     title: "K",
     comments: "Quick and tasty everyday meal",
-    userId: 4,
+    userId: "4",
     recipeId: 6,
   },
   {
@@ -36,7 +36,7 @@ export let seedRatings = [
     value: 3,
     title: "Tasty everyday meal",
     comments: "",
-    userId: 4,
+    userId: "4",
     recipeId: 7,
   },
   {
@@ -44,7 +44,7 @@ export let seedRatings = [
     value: 3,
     title: "Very nice. Requires enough time to prepare.",
     comments: "",
-    userId: 4,
+    userId: "4",
     recipeId: 4,
   },
   {
@@ -52,7 +52,7 @@ export let seedRatings = [
     value: 4,
     title: "Very nice. Company worthy.",
     comments: "",
-    userId: 4,
+    userId: "4",
     recipeId: 3,
   },
   {
@@ -60,7 +60,7 @@ export let seedRatings = [
     value: 3,
     title: "Quite good",
     comments: "Good, quick pasta dish. Sauce quite strong.",
-    userId: 3,
+    userId: "3",
     recipeId: 9,
   },
   {
@@ -68,7 +68,7 @@ export let seedRatings = [
     value: 4,
     title: "Yum",
     comments: "Very rich",
-    userId: 4,
+    userId: "4",
     recipeId: 16,
   },
   {
@@ -76,7 +76,7 @@ export let seedRatings = [
     value: 4,
     title: "Quick and tasty",
     comments: "",
-    userId: 4,
+    userId: "4",
     recipeId: 9,
   },
   {
@@ -84,7 +84,7 @@ export let seedRatings = [
     value: 3,
     title: "Easy and not a bad bread substitute",
     comments: "",
-    userId: 3,
+    userId: "3",
     recipeId: 20,
   },
   {
@@ -92,7 +92,7 @@ export let seedRatings = [
     value: 5,
     title: "Yum diddly umptous!",
     comments: "",
-    userId: 4,
+    userId: "4",
     recipeId: 22,
   },
 ];
