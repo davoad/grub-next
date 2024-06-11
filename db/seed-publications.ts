@@ -119,4 +119,10 @@ export let seedPublications = [
     author: "Various",
     edition: "March 2011",
   },
+  {
+    id: 22,
+    name: "Unknown",
+    author: "Unknown",
+    edition: "March 2011",
+  },
 ];

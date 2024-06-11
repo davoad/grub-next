@@ -142,7 +142,7 @@ export let seedRecipes = [
     id: 15,
     name: "Salmon risotto",
     pageNumber: 0,
-    publicationId: null,
+    publicationId: 22,
     tags: [
       "Salmon",
       "peas",

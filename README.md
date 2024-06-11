@@ -5,10 +5,10 @@
 - [x] Navigation
 - [x] Clerk authentication
 - [x] Recipes home page - list recipes with mock data
-- [ ] Add Vercel Postgres
-- [ ] Add Drizzle ORM
-- [ ] Add database seed scripts
-- [ ] Replace recipe mock data with real data
+- [x] Add Vercel Postgres
+- [x] Add Drizzle ORM
+- [x] Add database seed scripts
+- [x] Replace recipe mock data with real data
 - [ ] Add recipe search functionality
 - [ ] Add publication page
 - [ ] New/Edit publication

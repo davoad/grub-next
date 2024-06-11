@@ -1,4 +1,5 @@
-import { sql } from "drizzle-orm";
+import { sql, relations } from "drizzle-orm";
+
 import {
   pgTableCreator,
   serial,
@@ -22,11 +23,17 @@ export const publications = createTable("publications", {
   updatedAt: timestamp("updated_at", { mode: "date" }),
 });
 
+export const publicationsRelations = relations(publications, ({ many }) => ({
+  recipes: many(recipes),
+}));
+
 export const recipes = createTable("recipes", {
   id: serial("id").primaryKey().notNull(),
   name: varchar("name").notNull(),
   pageNumber: integer("page_number"),
-  publicationId: integer("publication_id"),
+  publicationId: integer("publication_id").references(() => publications.id, {
+    onDelete: "set null",
+  }),
   url: char("url", { length: 256 }),
   tags: text("tags").default("{}").array(),
   preparationTime: integer("preparation_time"),
