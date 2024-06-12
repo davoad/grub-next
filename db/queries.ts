@@ -23,3 +23,16 @@ export async function getRecipes() {
 
   return { data };
 }
+
+export async function getPublications() {
+  const data = await db
+    .select({
+      id: publications.id,
+      name: publications.name,
+      edition: publications.edition,
+      author: publications.author,
+    })
+    .from(publications);
+
+  return { data };
+}
