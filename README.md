@@ -10,7 +10,7 @@
 - [x] Add database seed scripts
 - [x] Replace recipe mock data with real data
 - [ ] Add recipe search functionality
-- [ ] Add publication page
+- [x] Add publication page
 - [ ] New/Edit publication
 - [ ] New/Edit recipe
 - [ ] Add/Edit star rating
