@@ -27,7 +27,11 @@ export const RecipeSearch = ({
 
   return (
     <>
-      <SearchInput filterText={filterText} onFilterTextChange={setFilterText} />
+      <SearchInput
+        className="mb-4"
+        filterText={filterText}
+        onFilterTextChange={setFilterText}
+      />
       <RecipeList recipes={recipes} />
     </>
   );

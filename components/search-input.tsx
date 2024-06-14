@@ -3,15 +3,18 @@ import { Input } from "@/components/ui/input";
 export interface SearchInputProps {
   filterText: string;
   onFilterTextChange: (value: string) => void;
+  className?: string;
 }
 
 export const SearchInput = ({
   filterText,
   onFilterTextChange,
+  className,
 }: SearchInputProps) => {
   return (
-    <div className="mb-4 max-w-sm">
+    <div>
       <Input
+        className={className}
         type="search"
         placeholder="Search..."
         value={filterText}
