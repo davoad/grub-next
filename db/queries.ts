@@ -1,7 +1,36 @@
+"use server";
 import { db } from "@/db/drizzle";
-import { eq, avgDistinct } from "drizzle-orm";
+import { sql, or, eq, ilike, avgDistinct } from "drizzle-orm";
 import { recipes, publications, ratings } from "@/db/schema";
-export async function getRecipes() {
+
+export interface Recipe {
+  id: number;
+  name: string;
+  tags: string[] | null;
+  preparationTime: number | null;
+  cookingTime: number | null;
+  publicationId: number | null;
+  publicationName: string | null;
+  publicationEdition: string | null;
+  pageNumber: number | null;
+  author: string | null;
+  rating: number | null;
+}
+
+export async function getRecipes(searchText: string | null): Promise<Recipe[]> {
+  const lowerSearchText = searchText ? searchText.toLowerCase() : null;
+  const whereClause = searchText
+    ? or(
+        ilike(recipes.name, `%${searchText}%`),
+        sql`EXISTS (
+          SELECT 1 FROM unnest(${recipes.tags}) AS tag
+          WHERE lower(tag) ILIKE '%' || ${lowerSearchText} || '%'
+        )`,
+        ilike(publications.name, `%${searchText}%`),
+        ilike(publications.author, `%${searchText}%`),
+      )
+    : sql`TRUE`;
+
   const data = await db
     .select({
       id: recipes.id,
@@ -19,9 +48,10 @@ export async function getRecipes() {
     .from(recipes)
     .leftJoin(publications, eq(recipes.publicationId, publications.id))
     .leftJoin(ratings, eq(recipes.id, ratings.recipeId))
+    .where(whereClause)
     .groupBy(recipes.id, publications.id);
 
-  return { data };
+  return data;
 }
 
 export async function getPublications() {
