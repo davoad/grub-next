@@ -7,7 +7,7 @@ export default function Publications() {
         role="list"
         className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
       >
-        {publications.data.map((publication) => {
+        {publications?.map((publication) => {
           return (
             <li
               key={publication.id}

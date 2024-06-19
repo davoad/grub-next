@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect } from "react";
-import { RecipeList } from "@/components/recipe-list";
-import { SearchInput } from "./search-input";
-import { getRecipes, Recipe } from "@/db/queries";
+import { RecipeList } from "@/components/recipes/recipe-list";
+import { SearchInput } from "../search-input";
+import { getRecipes, Recipe } from "@/db/actions";
 
 export const RecipeSearch = ({
   initialRecipes,

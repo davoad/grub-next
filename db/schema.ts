@@ -1,4 +1,7 @@
+//schema.ts
 import { sql, relations } from "drizzle-orm";
+import { createInsertSchema } from "drizzle-zod";
+import { z } from "zod";
 
 import {
   pgTableCreator,
@@ -35,7 +38,9 @@ export const recipes = createTable("recipes", {
     onDelete: "set null",
   }),
   url: char("url", { length: 256 }),
-  tags: text("tags").default("{}").array(),
+  tags: text("tags")
+    .array()
+    .default(sql`'{}'::text[]`),
   preparationTime: integer("preparation_time"),
   cookingTime: integer("cooking_time"),
   createdAt: timestamp("created_at", { mode: "date" })
@@ -47,6 +52,10 @@ export const recipes = createTable("recipes", {
 export const recipesRelations = relations(recipes, ({ many }) => ({
   ratings: many(ratings),
 }));
+
+export const insertRecipeSchema = createInsertSchema(recipes, {
+  tags: z.array(z.string()).optional().nullable(),
+});
 
 export const ratings = createTable("ratings", {
   id: serial("id").primaryKey().notNull(),

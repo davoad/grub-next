@@ -18,6 +18,10 @@ let routes = [
     href: "/publications",
     label: "Publications",
   },
+  {
+    href: "/new-recipe",
+    label: "New Recipe",
+  },
 ];
 
 export const Navigation = () => {

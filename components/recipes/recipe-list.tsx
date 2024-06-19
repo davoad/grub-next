@@ -1,12 +1,11 @@
 import { Timer, Star, Tag } from "lucide-react";
-import { Recipe, getRecipes } from "@/db/queries";
+import { Recipe } from "@/db/actions";
 
 type Props = {
   recipes?: Recipe[];
 };
 
 export const RecipeList = ({ recipes }: Props) => {
-  //const recipes = searchText ? await getRecipes(searchText) : initialRecipes;
   return (
     <ul
       role="list"

@@ -1,5 +1,5 @@
-import { getRecipes } from "@/db/queries";
-import { RecipeSearch } from "@/components/recipe-search";
+import { getRecipes } from "@/db/actions";
+import { RecipeSearch } from "@/components/recipes/recipe-search";
 
 const initialRecipes = await getRecipes(null);
 
