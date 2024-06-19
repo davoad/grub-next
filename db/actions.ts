@@ -27,8 +27,6 @@ export interface Recipe {
 export async function createRecipeAction(
   data: z.infer<typeof insertRecipeSchema>,
 ) {
-  console.log(data);
-
   const parsedData = insertRecipeSchema.parse(data);
 
   const result = await db.insert(recipes).values(parsedData).returning();
