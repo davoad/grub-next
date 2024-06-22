@@ -19,7 +19,7 @@ let routes = [
     label: "Publications",
   },
   {
-    href: "/new-recipe",
+    href: "/new-recipe-sheet",
     label: "New Recipe",
   },
 ];

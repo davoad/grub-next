@@ -1,4 +1,3 @@
-// recipe-form.tsx
 "use client";
 import { z } from "zod";
 import { Trash } from "lucide-react";
@@ -47,12 +46,6 @@ const formSchema = z.object({
 
 type FormValues = z.input<typeof formSchema>;
 
-type Publication = {
-  id: number;
-  name: string;
-  edition: string | null;
-};
-
 type Props = {
   id?: string;
   defaultValues?: FormValues;
@@ -74,11 +67,10 @@ export const RecipeForm = ({
     defaultValues: defaultValues,
   });
 
-  // TODO: Get pending state from form action
-  const disabled = false;
+  const { isSubmitting } = form.formState;
 
-  const handleSubmit = (values: FormValues) => {
-    onSubmit(values);
+  const handleSubmit = async (values: FormValues) => {
+    await onSubmit(values);
   };
 
   const handleDelete = () => {
@@ -99,7 +91,7 @@ export const RecipeForm = ({
               <FormLabel>Name</FormLabel>
               <FormControl>
                 <Input
-                  disabled={disabled}
+                  disabled={isSubmitting}
                   placeholder="Chocolate cake"
                   {...field}
                 />
@@ -117,7 +109,7 @@ export const RecipeForm = ({
               <FormLabel>Publication</FormLabel>
               <FormControl>
                 <Select
-                  disabled={disabled}
+                  disabled={isSubmitting}
                   value={field.value ? String(field.value) : ""}
                   onValueChange={(value) => field.onChange(parseInt(value))}
                 >
@@ -154,7 +146,7 @@ export const RecipeForm = ({
               <FormLabel>Page Number</FormLabel>
               <FormControl>
                 <Input
-                  disabled={disabled}
+                  disabled={isSubmitting}
                   placeholder="10"
                   {...field}
                   value={field.value ?? ""}
@@ -173,7 +165,7 @@ export const RecipeForm = ({
               <FormLabel>Tags</FormLabel>
               <FormControl>
                 <Input
-                  disabled={disabled}
+                  disabled={isSubmitting}
                   placeholder="dessert, chocolate"
                   {...field}
                   value={field.value?.join(", ") ?? ""}
@@ -197,7 +189,7 @@ export const RecipeForm = ({
               <FormLabel>Preparation Time (mins)</FormLabel>
               <FormControl>
                 <Input
-                  disabled={disabled}
+                  disabled={isSubmitting}
                   placeholder="30"
                   {...field}
                   value={field.value ?? ""}
@@ -216,7 +208,7 @@ export const RecipeForm = ({
               <FormLabel>Cooking Time (mins)</FormLabel>
               <FormControl>
                 <Input
-                  disabled={disabled}
+                  disabled={isSubmitting}
                   placeholder="45"
                   {...field}
                   value={field.value ?? ""}
@@ -228,13 +220,14 @@ export const RecipeForm = ({
           )}
         />
 
-        <Button className="w-full" disabled={disabled}>
+        <Button className="w-full" disabled={isSubmitting}>
           {id ? "Save changes" : "Create recipe"}
         </Button>
+
         {!!id && (
           <Button
             type="button"
-            disabled={disabled}
+            disabled={isSubmitting}
             onClick={handleDelete}
             className="w-full"
             variant="outline"

@@ -24,6 +24,13 @@ export interface Recipe {
   rating: number | null;
 }
 
+export interface Publication {
+  id: number;
+  name: string;
+  edition: string | null;
+  author: string | null;
+}
+
 export async function createRecipeAction(
   data: z.infer<typeof insertRecipeSchema>,
 ) {
@@ -67,6 +74,20 @@ export async function getRecipes(searchText: string | null): Promise<Recipe[]> {
     .leftJoin(ratings, eq(recipes.id, ratings.recipeId))
     .where(whereClause)
     .groupBy(recipes.id, publications.id);
+
+  return data;
+}
+
+export async function getPublications(): Promise<Publication[]> {
+  const data = await db
+    .select({
+      id: publications.id,
+      name: publications.name,
+      edition: publications.edition,
+      author: publications.author,
+    })
+    .from(publications)
+    .orderBy(publications.name, publications.edition);
 
   return data;
 }

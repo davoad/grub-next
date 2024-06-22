@@ -1,4 +1,3 @@
-//schema.ts
 import { sql, relations } from "drizzle-orm";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -26,10 +25,6 @@ export const publications = createTable("publications", {
   updatedAt: timestamp("updated_at", { mode: "date" }),
 });
 
-export const publicationsRelations = relations(publications, ({ many }) => ({
-  recipes: many(recipes),
-}));
-
 export const recipes = createTable("recipes", {
   id: serial("id").primaryKey().notNull(),
   name: varchar("name").notNull(),
@@ -49,14 +44,6 @@ export const recipes = createTable("recipes", {
   updatedAt: timestamp("updated_at", { mode: "date" }),
 });
 
-export const recipesRelations = relations(recipes, ({ many }) => ({
-  ratings: many(ratings),
-}));
-
-export const insertRecipeSchema = createInsertSchema(recipes, {
-  tags: z.array(z.string()).optional().nullable(),
-});
-
 export const ratings = createTable("ratings", {
   id: serial("id").primaryKey().notNull(),
   value: integer("value").notNull(),
@@ -70,4 +57,33 @@ export const ratings = createTable("ratings", {
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
   updatedAt: timestamp("updated_at", { mode: "date" }),
+});
+
+export const publicationsRelationsMany = relations(
+  publications,
+  ({ many }) => ({
+    recipes: many(recipes),
+  }),
+);
+
+export const recipesRelationsOne = relations(recipes, ({ one }) => ({
+  recipePublication: one(publications, {
+    fields: [recipes.publicationId],
+    references: [publications.id],
+  }),
+}));
+
+export const ratingsRelationsOne = relations(ratings, ({ one }) => ({
+  ratingRecipe: one(recipes, {
+    fields: [ratings.recipeId],
+    references: [recipes.id],
+  }),
+}));
+
+export const recipesRelationsMany = relations(recipes, ({ many }) => ({
+  ratings: many(ratings),
+}));
+
+export const insertRecipeSchema = createInsertSchema(recipes, {
+  tags: z.array(z.string()).optional().nullable(),
 });
