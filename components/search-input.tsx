@@ -12,14 +12,12 @@ export const SearchInput = ({
   className,
 }: SearchInputProps) => {
   return (
-    <div>
-      <Input
-        className={className}
-        type="search"
-        placeholder="Search..."
-        value={filterText}
-        onChange={(e) => onFilterTextChange(e.target.value)}
-      />
-    </div>
+    <Input
+      className={className}
+      type="search"
+      placeholder="Search..."
+      value={filterText}
+      onChange={(e) => onFilterTextChange(e.target.value)}
+    />
   );
 };
