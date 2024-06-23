@@ -1,11 +1,18 @@
-import { Timer, Star, Tag } from "lucide-react";
+import { Timer, Star, Tag, Pencil } from "lucide-react";
 import { Recipe } from "@/db/actions";
+import { Button } from "../ui/button";
+import { useEditRecipe } from "@/hooks/recipes/use-edit-recipe";
 
 type Props = {
   recipes?: Recipe[];
 };
 
 export const RecipeList = ({ recipes }: Props) => {
+  const { onOpen: onOpenRecipe } = useEditRecipe();
+
+  const onEdit = (id: number) => {
+    onOpenRecipe(id);
+  };
   return (
     <ul
       role="list"
@@ -53,7 +60,13 @@ export const RecipeList = ({ recipes }: Props) => {
                   </ul>
                 </div>
               </div>
+              <div>
+                <Button onClick={() => onEdit(recipe.id)} size="icon">
+                  <Pencil className="size-4" />
+                </Button>
+              </div>
             </div>
+
             <div>
               <div className="-mt-px flex divide-x divide-gray-200">
                 <div className="flex w-0 flex-1">

@@ -12,5 +12,5 @@
 - [x] Add recipe search functionality
 - [x] Add publication page
 - [ ] New/Edit publication
-- [ ] New/Edit recipe
+- [x] New/Edit recipe
 - [ ] Add/Edit star rating

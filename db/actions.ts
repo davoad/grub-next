@@ -31,6 +31,21 @@ export interface Publication {
   author: string | null;
 }
 
+export async function updateRecipeAction(
+  id: number,
+  data: z.infer<typeof insertRecipeSchema>,
+) {
+  const updatedData = {
+    ...data,
+    updatedAt: new Date(),
+  };
+  const result = await db
+    .update(recipes)
+    .set(updatedData)
+    .where(eq(recipes.id, id))
+    .returning();
+  return result;
+}
 export async function createRecipeAction(
   data: z.infer<typeof insertRecipeSchema>,
 ) {
@@ -74,6 +89,34 @@ export async function getRecipes(searchText: string | null): Promise<Recipe[]> {
     .leftJoin(ratings, eq(recipes.id, ratings.recipeId))
     .where(whereClause)
     .groupBy(recipes.id, publications.id);
+
+  return data;
+}
+
+export interface SimpleRecipe {
+  id: number;
+  name: string;
+  tags: string[] | null;
+  preparationTime: number | null;
+  cookingTime: number | null;
+  publicationId: number | null;
+  pageNumber: number | null;
+}
+
+export async function getRecipe(id: number): Promise<SimpleRecipe[]> {
+  const data = await db
+    .select({
+      id: recipes.id,
+      name: recipes.name,
+      tags: recipes.tags,
+      preparationTime: recipes.preparationTime,
+      cookingTime: recipes.cookingTime,
+      publicationId: recipes.publicationId,
+      pageNumber: recipes.pageNumber,
+    })
+    .from(recipes)
+    .leftJoin(publications, eq(recipes.publicationId, publications.id))
+    .where(eq(recipes.id, id));
 
   return data;
 }

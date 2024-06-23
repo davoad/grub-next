@@ -25,6 +25,7 @@ import {
   FormMessage,
   FormDescription,
 } from "@/components/ui/form";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Recipe name is required" }),
@@ -47,7 +48,7 @@ const formSchema = z.object({
 type FormValues = z.input<typeof formSchema>;
 
 type Props = {
-  id?: string;
+  id: number | null;
   defaultValues?: FormValues;
   onSubmit: (values: FormValues) => void;
   onDelete?: () => void;
@@ -68,6 +69,10 @@ export const RecipeForm = ({
   });
 
   const { isSubmitting } = form.formState;
+
+  useEffect(() => {
+    form.reset(defaultValues);
+  }, [defaultValues]);
 
   const handleSubmit = async (values: FormValues) => {
     await onSubmit(values);

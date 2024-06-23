@@ -1,8 +1,14 @@
 import { z } from "zod";
 
-import { useNewRecipe } from "@/hooks/recipes/use-new-recipe";
+import { useEditRecipe } from "@/hooks/recipes/use-edit-recipe";
 import { RecipeForm } from "@/components/recipes/recipe-form";
-import { createRecipeAction, getPublications } from "@/db/actions";
+import {
+  SimpleRecipe,
+  createRecipeAction,
+  getPublications,
+  getRecipe,
+  updateRecipeAction,
+} from "@/db/actions";
 
 import { insertRecipeSchema } from "@/db/schema";
 import {
@@ -32,9 +38,10 @@ type Publication = {
 
 type FormValues = z.input<typeof formSchema>;
 
-export const NewRecipeSheet = () => {
+export const EditRecipeSheet = () => {
   const [publications, setPublications] = useState<Publication[]>([]);
-  const { isOpen, onClose } = useNewRecipe();
+  const [recipe, setRecipe] = useState<SimpleRecipe | null>(null);
+  const { id, isOpen, onClose } = useEditRecipe();
 
   useEffect(() => {
     const fetchPublications = async () => {
@@ -45,35 +52,48 @@ export const NewRecipeSheet = () => {
     fetchPublications();
   }, []);
 
+  useEffect(() => {
+    if (!id) return;
+
+    const fetchRecipe = async () => {
+      const fetchedRecipe = await getRecipe(id);
+      setRecipe(fetchedRecipe[0]);
+    };
+
+    fetchRecipe();
+  }, [id]);
+
   const publicationOptions = publications.map((publication) => ({
     value: publication.id,
     label: `${publication.name}${publication.edition ? ` (${publication.edition})` : ""}`,
   }));
 
   const onSubmit = async (values: FormValues) => {
-    await createRecipeAction(values);
+    if (!id) return;
+    await updateRecipeAction(id, values);
     onClose();
+  };
+  const defaultValues = recipe || {
+    name: "",
+    pageNumber: null,
+    tags: [],
+    preparationTime: null,
+    cookingTime: null,
+    publicationId: null,
   };
 
   return (
     <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetContent className="space-y-4">
         <SheetHeader>
-          <SheetTitle>New Recipe</SheetTitle>
+          <SheetTitle>Edit Recipe</SheetTitle>
         </SheetHeader>
 
         <RecipeForm
-          id={null}
+          id={id}
           onSubmit={onSubmit}
           publicationOptions={publicationOptions}
-          defaultValues={{
-            name: "",
-            pageNumber: null,
-            tags: [],
-            preparationTime: null,
-            cookingTime: null,
-            publicationId: null,
-          }}
+          defaultValues={defaultValues}
         />
       </SheetContent>
     </Sheet>
