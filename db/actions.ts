@@ -148,20 +148,6 @@ export async function createPublicationAction(
   return result;
 }
 
-// export async function getPublications(): Promise<Publication[]> {
-//   const data = await db
-//     .select({
-//       id: publications.id,
-//       name: publications.name,
-//       edition: publications.edition,
-//       author: publications.author,
-//     })
-//     .from(publications)
-//     .orderBy(publications.name, publications.edition);
-
-//   return data;
-// }
-
 export async function getPublication(id: number): Promise<Publication[]> {
   const data = await db
     .select({
