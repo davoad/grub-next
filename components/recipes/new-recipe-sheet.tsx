@@ -38,7 +38,7 @@ export const NewRecipeSheet = () => {
 
   useEffect(() => {
     const fetchPublications = async () => {
-      const fetchedPublications = await getPublications();
+      const fetchedPublications = await getPublications(null);
       setPublications(fetchedPublications);
     };
 
