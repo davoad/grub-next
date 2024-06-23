@@ -43,7 +43,7 @@ export const EditRecipeSheet = () => {
 
   useEffect(() => {
     const fetchPublications = async () => {
-      const fetchedPublications = await getPublications();
+      const fetchedPublications = await getPublications(null);
       setPublications(fetchedPublications);
     };
 
