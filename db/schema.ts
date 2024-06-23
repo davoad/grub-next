@@ -87,3 +87,5 @@ export const recipesRelationsMany = relations(recipes, ({ many }) => ({
 export const insertRecipeSchema = createInsertSchema(recipes, {
   tags: z.array(z.string()).optional().nullable(),
 });
+
+export const insertPublicationSchema = createInsertSchema(publications, {});

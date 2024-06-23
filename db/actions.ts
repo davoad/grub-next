@@ -3,6 +3,7 @@
 import { z } from "zod";
 import {
   insertRecipeSchema,
+  insertPublicationSchema,
   recipes,
   publications,
   ratings,
@@ -22,6 +23,16 @@ export interface Recipe {
   pageNumber: number | null;
   author: string | null;
   rating: number | null;
+}
+
+export interface SimpleRecipe {
+  id: number;
+  name: string;
+  tags: string[] | null;
+  preparationTime: number | null;
+  cookingTime: number | null;
+  publicationId: number | null;
+  pageNumber: number | null;
 }
 
 export interface Publication {
@@ -93,16 +104,6 @@ export async function getRecipes(searchText: string | null): Promise<Recipe[]> {
   return data;
 }
 
-export interface SimpleRecipe {
-  id: number;
-  name: string;
-  tags: string[] | null;
-  preparationTime: number | null;
-  cookingTime: number | null;
-  publicationId: number | null;
-  pageNumber: number | null;
-}
-
 export async function getRecipe(id: number): Promise<SimpleRecipe[]> {
   const data = await db
     .select({
@@ -121,7 +122,47 @@ export async function getRecipe(id: number): Promise<SimpleRecipe[]> {
   return data;
 }
 
-export async function getPublications(): Promise<Publication[]> {
+export async function updatePublicationAction(
+  id: number,
+  data: z.infer<typeof insertPublicationSchema>,
+) {
+  const updatedData = {
+    ...data,
+    updatedAt: new Date(),
+  };
+  const result = await db
+    .update(publications)
+    .set(updatedData)
+    .where(eq(publications.id, id))
+    .returning();
+  return result;
+}
+
+export async function createPublicationAction(
+  data: z.infer<typeof insertPublicationSchema>,
+) {
+  const parsedData = insertPublicationSchema.parse(data);
+
+  const result = await db.insert(publications).values(parsedData).returning();
+
+  return result;
+}
+
+// export async function getPublications(): Promise<Publication[]> {
+//   const data = await db
+//     .select({
+//       id: publications.id,
+//       name: publications.name,
+//       edition: publications.edition,
+//       author: publications.author,
+//     })
+//     .from(publications)
+//     .orderBy(publications.name, publications.edition);
+
+//   return data;
+// }
+
+export async function getPublication(id: number): Promise<Publication[]> {
   const data = await db
     .select({
       id: publications.id,
@@ -130,6 +171,31 @@ export async function getPublications(): Promise<Publication[]> {
       author: publications.author,
     })
     .from(publications)
+    .where(eq(publications.id, id));
+
+  return data;
+}
+
+export async function getPublications(
+  searchText: string | null,
+): Promise<Publication[]> {
+  const whereClause = searchText
+    ? or(
+        ilike(publications.name, `%${searchText}%`),
+        ilike(publications.author, `%${searchText}%`),
+        ilike(publications.edition, `%${searchText}%`),
+      )
+    : sql`TRUE`;
+
+  const data = await db
+    .select({
+      id: publications.id,
+      name: publications.name,
+      edition: publications.edition,
+      author: publications.author,
+    })
+    .from(publications)
+    .where(whereClause)
     .orderBy(publications.name, publications.edition);
 
   return data;
