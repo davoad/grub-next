@@ -14,6 +14,8 @@
 - [x] New/Edit publication
 - [x] New/Edit recipe
 - [x] Publications search
-- [ ] Add/Edit star rating
+- [x] Add/Edit star rating
+- [ ] View ratings
 - [ ] Server side validation for actions with clerk and schema
 - [ ] Check database insert/update times (data mode?)
+- [ ] Change edit and rate buttons to use ... pattern

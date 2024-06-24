@@ -1,7 +1,8 @@
-import { Timer, Star, Tag, Pencil } from "lucide-react";
+import { Timer, Star, Tag, Pencil, StarIcon } from "lucide-react";
 import { Recipe } from "@/db/actions";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { useEditRecipe } from "@/hooks/recipes/use-edit-recipe";
+import { useRateRecipe } from "@/hooks/recipes/use-rate-recipe";
 
 type Props = {
   recipes?: Recipe[];
@@ -9,10 +10,16 @@ type Props = {
 
 export const RecipeList = ({ recipes }: Props) => {
   const { onOpen: onOpenRecipe } = useEditRecipe();
+  const { onOpen: onOpenRating } = useRateRecipe();
 
   const onEdit = (id: number) => {
     onOpenRecipe(id);
   };
+
+  const onRate = (id: number) => {
+    onOpenRating(id);
+  };
+
   return (
     <ul
       role="list"
@@ -64,6 +71,9 @@ export const RecipeList = ({ recipes }: Props) => {
                 <Button onClick={() => onEdit(recipe.id)} size="icon">
                   <Pencil className="size-4" />
                 </Button>
+                <Button onClick={() => onRate(recipe.id)} size="icon">
+                  <StarIcon className="size-4" />
+                </Button>
               </div>
             </div>
 
@@ -81,7 +91,7 @@ export const RecipeList = ({ recipes }: Props) => {
                 <div className="-ml-px flex w-0 flex-1">
                   <a className="relative inline-flex w-0 flex-1 items-center justify-center gap-x-3 rounded-br-lg border border-transparent py-4 text-sm font-semibold text-gray-900">
                     <Star
-                      className="h-5 w-5 fill-yellow-300 text-gray-400"
+                      className="h-5 w-5 fill-yellow-500 text-yellow-500"
                       aria-hidden="true"
                     />
                     {recipe.rating ?? "NA"}

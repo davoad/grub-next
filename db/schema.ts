@@ -49,10 +49,12 @@ export const ratings = createTable("ratings", {
   value: integer("value").notNull(),
   title: varchar("title"),
   comments: varchar("comments"),
-  userId: varchar("user_id"),
-  recipeId: integer("recipe_id").references(() => recipes.id, {
-    onDelete: "set null",
-  }),
+  userId: varchar("user_id").notNull(),
+  recipeId: integer("recipe_id")
+    .references(() => recipes.id, {
+      onDelete: "set null",
+    })
+    .notNull(),
   createdAt: timestamp("created_at", { mode: "date" })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
@@ -88,4 +90,6 @@ export const insertRecipeSchema = createInsertSchema(recipes, {
   tags: z.array(z.string()).optional().nullable(),
 });
 
-export const insertPublicationSchema = createInsertSchema(publications, {});
+export const insertPublicationSchema = createInsertSchema(publications);
+
+export const insertRatingSchema = createInsertSchema(ratings);

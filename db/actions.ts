@@ -7,9 +7,11 @@ import {
   recipes,
   publications,
   ratings,
+  insertRatingSchema,
 } from "@/db/schema";
 import { db } from "@/db/drizzle";
-import { sql, or, eq, ilike, avgDistinct } from "drizzle-orm";
+import { sql, or, eq, ilike, avgDistinct, and } from "drizzle-orm";
+import { auth, currentUser } from "@clerk/nextjs/server";
 
 export interface Recipe {
   id: number;
@@ -40,6 +42,15 @@ export interface Publication {
   name: string;
   edition: string | null;
   author: string | null;
+}
+
+export interface Rating {
+  id: number;
+  value: number;
+  recipeId: number;
+  userId: string;
+  title: string | null;
+  comments: string | null;
 }
 
 export async function updateRecipeAction(
@@ -183,6 +194,67 @@ export async function getPublications(
     .from(publications)
     .where(whereClause)
     .orderBy(publications.name, publications.edition);
+
+  return data;
+}
+const createRatingSchema = insertRatingSchema.pick({
+  value: true,
+  comments: true,
+});
+export async function createRatingAction(
+  recipeId: number,
+  data: z.infer<typeof createRatingSchema>,
+) {
+  const userId = auth().userId;
+
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
+
+  const parsedData = createRatingSchema.parse(data);
+
+  const existingRating = await db
+    .select()
+    .from(ratings)
+    .where(and(eq(ratings.recipeId, recipeId), eq(ratings.userId, userId)));
+
+  if (existingRating.length === 1) {
+    const updatedData = {
+      ...parsedData,
+      updatedAt: new Date(),
+    };
+
+    await db
+      .update(ratings)
+      .set(updatedData)
+      .where(and(eq(ratings.recipeId, recipeId), eq(ratings.userId, userId)));
+  } else {
+    await db.insert(ratings).values({
+      ...parsedData,
+      recipeId,
+      userId,
+    });
+  }
+}
+
+export async function getRating(recipeId: number): Promise<Rating[]> {
+  const userId = auth().userId;
+
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
+
+  const data = await db
+    .select({
+      id: ratings.id,
+      value: ratings.value,
+      title: ratings.title,
+      comments: ratings.comments,
+      userId: ratings.userId,
+      recipeId: ratings.recipeId,
+    })
+    .from(ratings)
+    .where(and(eq(ratings.recipeId, recipeId), eq(ratings.userId, userId)));
 
   return data;
 }
