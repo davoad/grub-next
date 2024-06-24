@@ -1,7 +1,13 @@
-import { Pencil } from "lucide-react";
+import { MoreHorizontal, Edit } from "lucide-react";
 import { Publication } from "@/db/actions";
 import { Button } from "@/components/ui/button";
 import { useEditPublication } from "@/hooks/publications/use-edit-publication";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 type Props = {
   publications?: Publication[];
@@ -36,16 +42,28 @@ export const PublicationList = ({ publications }: Props) => {
                   {publication.author}
                 </div>
               </div>
-            </div>
-            <div>
-              <Button onClick={() => onEdit(publication.id)} size="icon">
-                <Pencil className="size-4" />
-              </Button>
+              <div>
+                <DropdownMenu modal={false}>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      size="icon"
+                      className="bg-transparant border-none hover:bg-transparent focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                    >
+                      <MoreHorizontal className="h-5 w-5 text-gray-400 hover:text-gray-500" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onSelect={() => onEdit(publication.id)}>
+                      <Edit className="mr-2 size-4" />
+                      Edit
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
             </div>
           </li>
         );
       })}
-      ;
     </ul>
   );
 };

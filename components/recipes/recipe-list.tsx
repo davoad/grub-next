@@ -1,6 +1,12 @@
-import { Timer, Star, Tag, Pencil, StarIcon } from "lucide-react";
+import { Timer, Star, Tag, MoreHorizontal, Edit, StarIcon } from "lucide-react";
 import { Recipe } from "@/db/actions";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useEditRecipe } from "@/hooks/recipes/use-edit-recipe";
 import { useRateRecipe } from "@/hooks/recipes/use-rate-recipe";
 
@@ -68,12 +74,34 @@ export const RecipeList = ({ recipes }: Props) => {
                 </div>
               </div>
               <div>
-                <Button onClick={() => onEdit(recipe.id)} size="icon">
-                  <Pencil className="size-4" />
-                </Button>
-                <Button onClick={() => onRate(recipe.id)} size="icon">
-                  <StarIcon className="size-4" />
-                </Button>
+                <DropdownMenu modal={false}>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      size="icon"
+                      className="bg-transparant border-none hover:bg-transparent focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
+                    >
+                      <MoreHorizontal className="h-5 w-5 text-gray-400 hover:text-gray-500" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      onSelect={() => {
+                        onEdit(recipe.id);
+                      }}
+                    >
+                      <Edit className="mr-2 size-4" />
+                      Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onSelect={() => {
+                        onRate(recipe.id);
+                      }}
+                    >
+                      <StarIcon className="mr-2 size-4" />
+                      Rate
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
             </div>
 
