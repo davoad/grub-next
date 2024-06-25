@@ -16,6 +16,6 @@
 - [x] Publications search
 - [x] Add/Edit star rating
 - [ ] View ratings
-- [ ] Server side validation for actions with clerk and schema
+- [x] Server side validation for actions with clerk and schema
 - [ ] Check database insert/update times (data mode?)
-- [ ] Change edit and rate buttons to use ... pattern
+- [x] Change edit and rate buttons to use ... pattern
