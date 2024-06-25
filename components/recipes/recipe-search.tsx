@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { RecipeList } from "@/components/recipes/recipe-list";
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "../search-input";
-import { getRecipes, Recipe } from "@/db/actions";
+import { getRecipesAction, Recipe } from "@/db/actions";
 import { useNewRecipe } from "@/hooks/recipes/use-new-recipe";
 import { Plus } from "lucide-react";
 
@@ -22,7 +22,7 @@ export const RecipeSearch = ({
       return;
     }
     const fetchRecipesData = async () => {
-      const newRecipes = await getRecipes(filterText);
+      const newRecipes = await getRecipesAction(filterText);
       setRecipes(newRecipes);
     };
 

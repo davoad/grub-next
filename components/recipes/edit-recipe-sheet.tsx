@@ -4,8 +4,8 @@ import { useEditRecipe } from "@/hooks/recipes/use-edit-recipe";
 import { RecipeForm } from "@/components/recipes/recipe-form";
 import {
   SimpleRecipe,
-  getPublications,
-  getRecipe,
+  getPublicationsAction,
+  getRecipeAction,
   updateRecipeAction,
 } from "@/db/actions";
 
@@ -43,7 +43,7 @@ export const EditRecipeSheet = () => {
 
   useEffect(() => {
     const fetchPublications = async () => {
-      const fetchedPublications = await getPublications(null);
+      const fetchedPublications = await getPublicationsAction(null);
       setPublications(fetchedPublications);
     };
 
@@ -54,7 +54,7 @@ export const EditRecipeSheet = () => {
     if (!id) return;
 
     const fetchRecipe = async () => {
-      const fetchedRecipe = await getRecipe(id);
+      const fetchedRecipe = await getRecipeAction(id);
       setRecipe(fetchedRecipe[0]);
     };
 

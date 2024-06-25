@@ -87,7 +87,9 @@ export async function createRecipeAction(
   return result;
 }
 
-export async function getRecipes(searchText: string | null): Promise<Recipe[]> {
+export async function getRecipesAction(
+  searchText: string | null,
+): Promise<Recipe[]> {
   const userId = auth().userId;
 
   if (!userId) {
@@ -129,7 +131,7 @@ export async function getRecipes(searchText: string | null): Promise<Recipe[]> {
   return data;
 }
 
-export async function getRecipe(id: number): Promise<SimpleRecipe[]> {
+export async function getRecipeAction(id: number): Promise<SimpleRecipe[]> {
   const userId = auth().userId;
 
   if (!userId) {
@@ -188,7 +190,7 @@ export async function createPublicationAction(
   return result;
 }
 
-export async function getPublication(id: number): Promise<Publication[]> {
+export async function getPublicationAction(id: number): Promise<Publication[]> {
   const userId = auth().userId;
 
   if (!userId) {
@@ -208,7 +210,7 @@ export async function getPublication(id: number): Promise<Publication[]> {
   return data;
 }
 
-export async function getPublications(
+export async function getPublicationsAction(
   searchText: string | null,
 ): Promise<Publication[]> {
   const userId = auth().userId;
@@ -278,7 +280,7 @@ export async function createRatingAction(
   }
 }
 
-export async function getRating(recipeId: number): Promise<Rating[]> {
+export async function getRatingAction(recipeId: number): Promise<Rating[]> {
   const userId = auth().userId;
 
   if (!userId) {

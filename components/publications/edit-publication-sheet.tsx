@@ -4,7 +4,7 @@ import { useEditPublication } from "@/hooks/publications/use-edit-publication";
 import { PublicationForm } from "@/components/publications/publication-form";
 import {
   Publication,
-  getPublication,
+  getPublicationAction,
   updatePublicationAction,
 } from "@/db/actions";
 
@@ -34,7 +34,7 @@ export const EditPublicationSheet = () => {
     if (!id) return;
 
     const fetchPublication = async () => {
-      const fetchPublication = await getPublication(id);
+      const fetchPublication = await getPublicationAction(id);
       setPublication(fetchPublication[0]);
     };
 

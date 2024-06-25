@@ -2,7 +2,7 @@ import { z } from "zod";
 import { useEffect, useState } from "react";
 import { RateRecipeForm } from "@/components/recipes/rate-recipe-form";
 import { useRateRecipe } from "@/hooks/recipes/use-rate-recipe";
-import { Rating, createRatingAction, getRating } from "@/db/actions";
+import { Rating, createRatingAction, getRatingAction } from "@/db/actions";
 import { insertRatingSchema } from "@/db/schema";
 import {
   Sheet,
@@ -26,7 +26,7 @@ export const RateRecipeSheet = () => {
     if (!recipeId) return;
 
     const fetchRating = async () => {
-      const fetchedRating = await getRating(recipeId);
+      const fetchedRating = await getRatingAction(recipeId);
       setRating(fetchedRating[0]);
     };
 

@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { useNewRecipe } from "@/hooks/recipes/use-new-recipe";
 import { RecipeForm } from "@/components/recipes/recipe-form";
-import { createRecipeAction, getPublications } from "@/db/actions";
+import { createRecipeAction, getPublicationsAction } from "@/db/actions";
 
 import { insertRecipeSchema } from "@/db/schema";
 import {
@@ -38,7 +38,7 @@ export const NewRecipeSheet = () => {
 
   useEffect(() => {
     const fetchPublications = async () => {
-      const fetchedPublications = await getPublications(null);
+      const fetchedPublications = await getPublicationsAction(null);
       setPublications(fetchedPublications);
     };
 

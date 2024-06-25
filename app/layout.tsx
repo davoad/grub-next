@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Inter, Roboto_Mono } from "next/font/google";
 
-import { SheetProvider } from "@/providers/sheet-provider";
-
 import "./globals.css";
 
 const inter = Inter({
@@ -31,10 +29,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" className={`${inter.variable} ${robotoMono.variable}`}>
-        <body>
-          <SheetProvider />
-          {children}
-        </body>
+        <body>{children}</body>
       </html>
     </ClerkProvider>
   );

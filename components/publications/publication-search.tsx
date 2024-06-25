@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { PublicationList } from "@/components/publications/publication-list";
 import { Button } from "@/components/ui/button";
 import { SearchInput } from "@/components/search-input";
-import { getPublications, Publication } from "@/db/actions";
+import { getPublicationsAction, Publication } from "@/db/actions";
 import { useNewPublication } from "@/hooks/publications/use-new-publication";
 import { Plus } from "lucide-react";
 
@@ -22,7 +22,7 @@ export const PublicationSearch = ({
       return;
     }
     const fetchPublicationsData = async () => {
-      const newPublications = await getPublications(filterText);
+      const newPublications = await getPublicationsAction(filterText);
       setPublications(newPublications);
     };
 
