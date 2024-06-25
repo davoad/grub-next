@@ -1,7 +1,7 @@
-import { getRecipes } from "@/db/actions";
+import { getRecipes } from "@/db/queries";
 import { RecipeSearch } from "@/components/recipes/recipe-search";
 
-const initialRecipes = await getRecipes(null);
+const initialRecipes = await getRecipes();
 
 export default function Home() {
   return (

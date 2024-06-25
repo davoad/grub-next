@@ -11,7 +11,7 @@ import {
 } from "@/db/schema";
 import { db } from "@/db/drizzle";
 import { sql, or, eq, ilike, avgDistinct, and } from "drizzle-orm";
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 
 export interface Recipe {
   id: number;
@@ -57,6 +57,11 @@ export async function updateRecipeAction(
   id: number,
   data: z.infer<typeof insertRecipeSchema>,
 ) {
+  const userId = auth().userId;
+
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
   const updatedData = {
     ...data,
     updatedAt: new Date(),
@@ -71,14 +76,23 @@ export async function updateRecipeAction(
 export async function createRecipeAction(
   data: z.infer<typeof insertRecipeSchema>,
 ) {
-  const parsedData = insertRecipeSchema.parse(data);
+  const userId = auth().userId;
 
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
+  const parsedData = insertRecipeSchema.parse(data);
   const result = await db.insert(recipes).values(parsedData).returning();
 
   return result;
 }
 
 export async function getRecipes(searchText: string | null): Promise<Recipe[]> {
+  const userId = auth().userId;
+
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
   const lowerSearchText = searchText ? searchText.toLowerCase() : null;
   const whereClause = searchText
     ? or(
@@ -116,6 +130,11 @@ export async function getRecipes(searchText: string | null): Promise<Recipe[]> {
 }
 
 export async function getRecipe(id: number): Promise<SimpleRecipe[]> {
+  const userId = auth().userId;
+
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
   const data = await db
     .select({
       id: recipes.id,
@@ -137,6 +156,11 @@ export async function updatePublicationAction(
   id: number,
   data: z.infer<typeof insertPublicationSchema>,
 ) {
+  const userId = auth().userId;
+
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
   const updatedData = {
     ...data,
     updatedAt: new Date(),
@@ -152,14 +176,25 @@ export async function updatePublicationAction(
 export async function createPublicationAction(
   data: z.infer<typeof insertPublicationSchema>,
 ) {
-  const parsedData = insertPublicationSchema.parse(data);
+  const userId = auth().userId;
 
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
+
+  const parsedData = insertPublicationSchema.parse(data);
   const result = await db.insert(publications).values(parsedData).returning();
 
   return result;
 }
 
 export async function getPublication(id: number): Promise<Publication[]> {
+  const userId = auth().userId;
+
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
+
   const data = await db
     .select({
       id: publications.id,
@@ -176,6 +211,12 @@ export async function getPublication(id: number): Promise<Publication[]> {
 export async function getPublications(
   searchText: string | null,
 ): Promise<Publication[]> {
+  const userId = auth().userId;
+
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
+
   const whereClause = searchText
     ? or(
         ilike(publications.name, `%${searchText}%`),

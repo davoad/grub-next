@@ -1,6 +1,6 @@
-import { db } from "@/db/drizzle";
-import { publications } from "@/db/schema";
-import { PgColumn } from "drizzle-orm/pg-core";
+import { db } from "@/db/drizzle"; // Import the 'eq' function from the 'drizzle' module
+import { publications, recipes, ratings } from "@/db/schema";
+import { avgDistinct, eq } from "drizzle-orm";
 
 export async function getPublications() {
   const data = await db
@@ -15,39 +15,26 @@ export async function getPublications() {
 
   return data;
 }
-function orderBy(
-  name: PgColumn<
-    {
-      name: "name";
-      tableName: "publications";
-      dataType: "string";
-      columnType: "PgVarchar";
-      data: string;
-      driverParam: string;
-      notNull: true;
-      hasDefault: false;
-      enumValues: [string, ...string[]];
-      baseColumn: never;
-    },
-    {},
-    {}
-  >,
-  edition: PgColumn<
-    {
-      name: "edition";
-      tableName: "publications";
-      dataType: "string";
-      columnType: "PgVarchar";
-      data: string;
-      driverParam: string;
-      notNull: false;
-      hasDefault: false;
-      enumValues: [string, ...string[]];
-      baseColumn: never;
-    },
-    {},
-    {}
-  >,
-) {
-  throw new Error("Function not implemented.");
+
+export async function getRecipes() {
+  const data = await db
+    .select({
+      id: recipes.id,
+      name: recipes.name,
+      tags: recipes.tags,
+      preparationTime: recipes.preparationTime,
+      cookingTime: recipes.cookingTime,
+      publicationId: recipes.publicationId,
+      publicationName: publications.name,
+      publicationEdition: publications.edition,
+      pageNumber: recipes.pageNumber,
+      author: publications.author,
+      rating: avgDistinct(ratings.value).mapWith(Number),
+    })
+    .from(recipes)
+    .leftJoin(publications, eq(recipes.publicationId, publications.id))
+    .leftJoin(ratings, eq(recipes.id, ratings.recipeId))
+    .groupBy(recipes.id, publications.id);
+
+  return data;
 }

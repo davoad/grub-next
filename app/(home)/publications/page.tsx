@@ -1,7 +1,7 @@
-import { getPublications } from "@/db/actions";
+import { getPublications } from "@/db/queries";
 import { PublicationSearch } from "@/components/publications/publication-search";
 
-const initialPublications = await getPublications(null);
+const initialPublications = await getPublications();
 
 export default function Publications() {
   return (
