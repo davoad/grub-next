@@ -7,6 +7,7 @@ import {
   Publication,
   getPublicationAction,
   updatePublicationAction,
+  deletePublicationAction,
 } from "@/db/actions";
 
 import { insertPublicationSchema } from "@/db/schema";
@@ -49,6 +50,14 @@ export const EditPublicationSheet = () => {
     queryClient.invalidateQueries({ queryKey: ["publications"] });
     onClose();
   };
+
+  const onDelete = async () => {
+    if (!id) return;
+    await deletePublicationAction(id);
+    queryClient.invalidateQueries({ queryKey: ["publications"] });
+    onClose();
+  };
+
   const defaultValues = publication || {
     name: "",
     author: null,
@@ -65,6 +74,7 @@ export const EditPublicationSheet = () => {
         <PublicationForm
           id={id}
           onSubmit={onSubmit}
+          onDelete={onDelete}
           defaultValues={defaultValues}
         />
       </SheetContent>

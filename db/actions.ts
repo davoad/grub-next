@@ -73,6 +73,18 @@ export async function updateRecipeAction(
     .returning();
   return result;
 }
+
+export async function deleteRecipeAction(id: number) {
+  const userId = auth().userId;
+
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
+
+  const result = await db.delete(recipes).where(eq(recipes.id, id)).returning();
+  return result;
+}
+
 export async function createRecipeAction(
   data: z.infer<typeof insertRecipeSchema>,
 ) {
@@ -170,6 +182,20 @@ export async function updatePublicationAction(
   const result = await db
     .update(publications)
     .set(updatedData)
+    .where(eq(publications.id, id))
+    .returning();
+  return result;
+}
+
+export async function deletePublicationAction(id: number) {
+  const userId = auth().userId;
+
+  if (!userId) {
+    throw new Error("User not authenticated");
+  }
+
+  const result = await db
+    .delete(publications)
     .where(eq(publications.id, id))
     .returning();
   return result;

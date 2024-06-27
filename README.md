@@ -19,3 +19,5 @@
 - [x] Server side validation for actions with clerk and schema
 - [ ] Check database insert/update times (data mode?)
 - [x] Change edit and rate buttons to use ... pattern
+- [x] Delete publication
+- [x] Delete recipe

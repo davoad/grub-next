@@ -50,7 +50,7 @@ type FormValues = z.input<typeof formSchema>;
 type Props = {
   id: number | null;
   defaultValues?: FormValues;
-  onSubmit: (values: FormValues) => void;
+  onSubmit?: (values: FormValues) => void;
   onDelete?: () => void;
   disabled?: boolean;
   publicationOptions: { value: number; label: string }[];
@@ -75,7 +75,7 @@ export const RecipeForm = ({
   }, [defaultValues, form]);
 
   const handleSubmit = async (values: FormValues) => {
-    await onSubmit(values);
+    await onSubmit?.(values);
   };
 
   const handleDelete = () => {

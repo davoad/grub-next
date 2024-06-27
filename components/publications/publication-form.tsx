@@ -29,7 +29,7 @@ type FormValues = z.input<typeof formSchema>;
 type Props = {
   id: number | null;
   defaultValues?: FormValues;
-  onSubmit: (values: FormValues) => void;
+  onSubmit?: (values: FormValues) => void;
   onDelete?: () => void;
   disabled?: boolean;
 };
@@ -52,10 +52,10 @@ export const PublicationForm = ({
   }, [defaultValues, form]);
 
   const handleSubmit = async (values: FormValues) => {
-    await onSubmit(values);
+    onSubmit?.(values);
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     onDelete?.();
   };
 

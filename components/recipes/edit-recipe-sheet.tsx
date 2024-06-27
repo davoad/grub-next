@@ -11,6 +11,7 @@ import {
   getPublicationsAction,
   getRecipeAction,
   updateRecipeAction,
+  deleteRecipeAction,
 } from "@/db/actions";
 
 import { insertRecipeSchema } from "@/db/schema";
@@ -75,6 +76,14 @@ export const EditRecipeSheet = () => {
     queryClient.invalidateQueries({ queryKey: ["recipes"] });
     onClose();
   };
+
+  const onDelete = async () => {
+    if (!id) return;
+    await deleteRecipeAction(id);
+    queryClient.invalidateQueries({ queryKey: ["recipes"] });
+    onClose();
+  };
+
   const defaultValues = recipe || {
     name: "",
     pageNumber: null,
@@ -94,6 +103,7 @@ export const EditRecipeSheet = () => {
         <RecipeForm
           id={id}
           onSubmit={onSubmit}
+          onDelete={onDelete}
           publicationOptions={publicationOptions}
           defaultValues={defaultValues}
         />
