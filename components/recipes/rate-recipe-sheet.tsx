@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { RateRecipeForm } from "@/components/recipes/rate-recipe-form";
 import { useRateRecipe } from "@/hooks/recipes/use-rate-recipe";
 import { Rating, createRatingAction, getRatingAction } from "@/db/actions";
@@ -21,6 +22,7 @@ type FormValues = z.input<typeof formSchema>;
 export const RateRecipeSheet = () => {
   const [rating, setRating] = useState<Rating | null>(null);
   const { recipeId, isOpen, onClose } = useRateRecipe();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (!recipeId) return;
@@ -36,6 +38,7 @@ export const RateRecipeSheet = () => {
   const onSubmit = async (values: FormValues) => {
     if (!recipeId) return;
     await createRatingAction(recipeId, { ...values });
+    queryClient.invalidateQueries({ queryKey: ["recipes"] });
     onClose();
   };
 
