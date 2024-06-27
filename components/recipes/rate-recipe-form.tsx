@@ -39,7 +39,7 @@ export const RateRecipeForm = ({ defaultValues, onSubmit }: Props) => {
 
   useEffect(() => {
     form.reset(defaultValues);
-  }, [defaultValues]);
+  }, [defaultValues, form]);
 
   const handleSubmit = async (values: FormValues) => {
     await onSubmit(values);

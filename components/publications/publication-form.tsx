@@ -49,7 +49,7 @@ export const PublicationForm = ({
 
   useEffect(() => {
     form.reset(defaultValues);
-  }, [defaultValues]);
+  }, [defaultValues, form]);
 
   const handleSubmit = async (values: FormValues) => {
     await onSubmit(values);

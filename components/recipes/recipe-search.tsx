@@ -24,7 +24,7 @@ export const RecipeSearch = ({
 
   useEffect(() => {
     refetch();
-  }, [filterText]);
+  }, [filterText, refetch]);
 
   return (
     <>
