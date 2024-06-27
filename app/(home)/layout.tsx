@@ -11,7 +11,7 @@ const DashboardLayout = ({ children }: Props) => {
     <QueryProvider>
       <Header />
       <SheetProvider />
-      <main className="px-3">{children}</main>
+      <main>{children}</main>
     </QueryProvider>
   );
 };
