@@ -21,3 +21,5 @@
 - [x] Change edit and rate buttons to use ... pattern
 - [x] Delete publication
 - [x] Delete recipe
+- [x] Make sheet take full width on mobile
+- [ ] Posthog
