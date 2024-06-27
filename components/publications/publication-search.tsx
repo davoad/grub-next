@@ -6,6 +6,7 @@ import { SearchInput } from "@/components/search-input";
 import { getPublicationsAction, Publication } from "@/db/actions";
 import { useNewPublication } from "@/hooks/publications/use-new-publication";
 import { Plus } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
 
 export const PublicationSearch = ({
   initialPublications,
@@ -13,21 +14,17 @@ export const PublicationSearch = ({
   initialPublications: Publication[];
 }) => {
   const [filterText, setFilterText] = useState("");
-  const [publications, setPublications] = useState(initialPublications);
   const newPublication = useNewPublication();
 
-  useEffect(() => {
-    if (filterText === "") {
-      setPublications(initialPublications);
-      return;
-    }
-    const fetchPublicationsData = async () => {
-      const newPublications = await getPublicationsAction(filterText);
-      setPublications(newPublications);
-    };
+  const { data: publications, refetch } = useQuery({
+    queryKey: ["publications", filterText],
+    queryFn: () => getPublicationsAction(filterText),
+    initialData: initialPublications,
+  });
 
-    fetchPublicationsData();
-  }, [filterText]);
+  useEffect(() => {
+    refetch();
+  }, [filterText, refetch]);
 
   return (
     <>

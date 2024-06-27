@@ -2,6 +2,9 @@ import { z } from "zod";
 
 import { useEditRecipe } from "@/hooks/recipes/use-edit-recipe";
 import { RecipeForm } from "@/components/recipes/recipe-form";
+import { useQueryClient } from "@tanstack/react-query";
+
+import { useEffect, useState } from "react";
 import {
   SimpleRecipe,
   getPublicationsAction,
@@ -16,8 +19,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-
-import { useEffect, useState } from "react";
 
 const formSchema = insertRecipeSchema.pick({
   name: true,
@@ -40,6 +41,7 @@ export const EditRecipeSheet = () => {
   const [publications, setPublications] = useState<Publication[]>([]);
   const [recipe, setRecipe] = useState<SimpleRecipe | null>(null);
   const { id, isOpen, onClose } = useEditRecipe();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const fetchPublications = async () => {
@@ -69,6 +71,7 @@ export const EditRecipeSheet = () => {
   const onSubmit = async (values: FormValues) => {
     if (!id) return;
     await updateRecipeAction(id, values);
+    queryClient.invalidateQueries({ queryKey: ["recipes"] });
     onClose();
   };
   const defaultValues = recipe || {

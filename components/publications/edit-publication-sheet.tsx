@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { useEditPublication } from "@/hooks/publications/use-edit-publication";
 import { PublicationForm } from "@/components/publications/publication-form";
@@ -29,6 +30,7 @@ type FormValues = z.input<typeof formSchema>;
 export const EditPublicationSheet = () => {
   const [publication, setPublication] = useState<Publication | null>(null);
   const { id, isOpen, onClose } = useEditPublication();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (!id) return;
@@ -44,6 +46,7 @@ export const EditPublicationSheet = () => {
   const onSubmit = async (values: FormValues) => {
     if (!id) return;
     await updatePublicationAction(id, values);
+    queryClient.invalidateQueries({ queryKey: ["publications"] });
     onClose();
   };
   const defaultValues = publication || {

@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { useQueryClient } from "@tanstack/react-query";
 
 import { useNewPublication } from "@/hooks/publications/use-new-publication";
 import { PublicationForm } from "@/components/publications/publication-form";
@@ -22,9 +23,11 @@ type FormValues = z.input<typeof formSchema>;
 
 export const NewPublicationSheet = () => {
   const { isOpen, onClose } = useNewPublication();
+  const queryClient = useQueryClient();
 
   const onSubmit = async (values: FormValues) => {
     await createPublicationAction(values);
+    queryClient.invalidateQueries({ queryKey: ["publications"] });
     onClose();
   };
 

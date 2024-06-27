@@ -2,9 +2,10 @@
 import { useState, useEffect } from "react";
 import { RecipeList } from "@/components/recipes/recipe-list";
 import { Button } from "@/components/ui/button";
-import { SearchInput } from "../search-input";
+import { SearchInput } from "@/components/search-input";
 import { getRecipesAction, Recipe } from "@/db/actions";
 import { useNewRecipe } from "@/hooks/recipes/use-new-recipe";
+import { useQuery } from "@tanstack/react-query";
 import { Plus } from "lucide-react";
 
 export const RecipeSearch = ({
@@ -13,21 +14,17 @@ export const RecipeSearch = ({
   initialRecipes: Recipe[];
 }) => {
   const [filterText, setFilterText] = useState("");
-  const [recipes, setRecipes] = useState(initialRecipes);
   const newRecipe = useNewRecipe();
 
-  useEffect(() => {
-    if (filterText === "") {
-      setRecipes(initialRecipes);
-      return;
-    }
-    const fetchRecipesData = async () => {
-      const newRecipes = await getRecipesAction(filterText);
-      setRecipes(newRecipes);
-    };
+  const { data: recipes, refetch } = useQuery({
+    queryKey: ["recipes", filterText],
+    queryFn: () => getRecipesAction(filterText),
+    initialData: initialRecipes,
+  });
 
-    fetchRecipesData();
-  }, [filterText]);
+  useEffect(() => {
+    refetch();
+  }, [filterText, refetch]);
 
   return (
     <>

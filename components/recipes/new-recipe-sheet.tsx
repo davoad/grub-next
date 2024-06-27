@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 import { useNewRecipe } from "@/hooks/recipes/use-new-recipe";
+import { useQueryClient } from "@tanstack/react-query";
 import { RecipeForm } from "@/components/recipes/recipe-form";
 import { createRecipeAction, getPublicationsAction } from "@/db/actions";
 
@@ -35,6 +36,7 @@ type FormValues = z.input<typeof formSchema>;
 export const NewRecipeSheet = () => {
   const [publications, setPublications] = useState<Publication[]>([]);
   const { isOpen, onClose } = useNewRecipe();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const fetchPublications = async () => {
@@ -52,6 +54,7 @@ export const NewRecipeSheet = () => {
 
   const onSubmit = async (values: FormValues) => {
     await createRecipeAction(values);
+    queryClient.invalidateQueries({ queryKey: ["recipes"] });
     onClose();
   };
 
