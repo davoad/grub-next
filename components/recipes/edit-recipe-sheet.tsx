@@ -3,8 +3,9 @@ import { z } from "zod";
 import { useEditRecipe } from "@/hooks/recipes/use-edit-recipe";
 import { RecipeForm } from "@/components/recipes/recipe-form";
 import { useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import {
   SimpleRecipe,
   getPublicationsAction,
@@ -38,19 +39,19 @@ type Publication = {
 type FormValues = z.input<typeof formSchema>;
 
 export const EditRecipeSheet = () => {
-  const [publications, setPublications] = useState<Publication[]>([]);
   const [recipe, setRecipe] = useState<SimpleRecipe | null>(null);
   const { id, isOpen, onClose } = useEditRecipe();
   const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const fetchPublications = async () => {
-      const fetchedPublications = await getPublicationsAction(null);
-      setPublications(fetchedPublications);
-    };
+  const { data: publications, refetch } = useQuery({
+    queryKey: ["publications"],
+    queryFn: () => getPublicationsAction(null),
+    initialData: [],
+  });
 
-    fetchPublications();
-  }, []);
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
 
   useEffect(() => {
     if (!id) return;
