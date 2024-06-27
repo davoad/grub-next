@@ -52,7 +52,7 @@ export const ratings = createTable("ratings", {
   userId: varchar("user_id").notNull(),
   recipeId: integer("recipe_id")
     .references(() => recipes.id, {
-      onDelete: "set null",
+      onDelete: "cascade",
     })
     .notNull(),
   createdAt: timestamp("created_at", { precision: 6, withTimezone: true })
