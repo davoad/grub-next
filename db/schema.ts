@@ -19,10 +19,10 @@ export const publications = createTable("publications", {
   name: varchar("name").notNull(),
   author: varchar("author"),
   edition: varchar("edition"),
-  createdAt: timestamp("created_at", { mode: "date" })
+  createdAt: timestamp("created_at", { precision: 6, withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: timestamp("updated_at", { mode: "date" }),
+  updatedAt: timestamp("updated_at", { precision: 6, withTimezone: true }),
 });
 
 export const recipes = createTable("recipes", {
@@ -38,10 +38,10 @@ export const recipes = createTable("recipes", {
     .default(sql`'{}'::text[]`),
   preparationTime: integer("preparation_time"),
   cookingTime: integer("cooking_time"),
-  createdAt: timestamp("created_at", { mode: "date" })
+  createdAt: timestamp("created_at", { precision: 6, withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: timestamp("updated_at", { mode: "date" }),
+  updatedAt: timestamp("updated_at", { precision: 6, withTimezone: true }),
 });
 
 export const ratings = createTable("ratings", {
@@ -55,10 +55,10 @@ export const ratings = createTable("ratings", {
       onDelete: "set null",
     })
     .notNull(),
-  createdAt: timestamp("created_at", { mode: "date" })
+  createdAt: timestamp("created_at", { precision: 6, withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
-  updatedAt: timestamp("updated_at", { mode: "date" }),
+  updatedAt: timestamp("updated_at", { precision: 6, withTimezone: true }),
 });
 
 export const publicationsRelationsMany = relations(
