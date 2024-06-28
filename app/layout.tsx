@@ -3,6 +3,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Inter, Roboto_Mono } from "next/font/google";
 
 import "./globals.css";
+import Script from "next/script";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,6 +31,11 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" className={`${inter.variable} ${robotoMono.variable}`}>
         <body>{children}</body>
+        <Script
+          src="https://mango-gtpt.vercel.app/script.js"
+          data-website-id="9229d631-29b3-4d39-bb57-39b47d56d82f"
+          strategy="lazyOnload"
+        />
       </html>
     </ClerkProvider>
   );

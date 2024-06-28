@@ -22,4 +22,5 @@
 - [x] Delete publication
 - [x] Delete recipe
 - [x] Make sheet take full width on mobile
-- [ ] Posthog
+- [x] Posthog or Umami
+- [ ] Add new piblication to new/edit recipe form
