@@ -28,11 +28,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const useAnalytics = process.env.USE_ANALYTICS === "true";
+  console.log("useAnalytics", useAnalytics);
   return (
     <ClerkProvider>
       <html lang="en" className={`${inter.variable} ${robotoMono.variable}`}>
         <body>{children}</body>
-        {useAnalytics ?? (
+        {useAnalytics && (
           <Script
             src="https://mango-gtpt.vercel.app/script.js"
             data-website-id="9229d631-29b3-4d39-bb57-39b47d56d82f"
