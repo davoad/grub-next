@@ -11,7 +11,3 @@ export const useNewRecipe = create<NewRecipeState>((set) => ({
   onOpen: () => set({ isOpen: true }),
   onClose: () => set({ isOpen: false }),
 }));
- 
-
-
-

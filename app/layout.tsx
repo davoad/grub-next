@@ -28,7 +28,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const useAnalytics = process.env.USE_ANALYTICS === "true";
-  console.log("useAnalytics", useAnalytics);
+
   return (
     <ClerkProvider>
       <html lang="en" className={`${inter.variable} ${robotoMono.variable}`}>

@@ -1,8 +1,9 @@
 "use client";
 import { z } from "zod";
-import { Trash } from "lucide-react";
+import { Trash, Plus } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNewPublication } from "@/hooks/publications/use-new-publication";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -63,6 +64,8 @@ export const RecipeForm = ({
   onDelete,
   publicationOptions,
 }: Props) => {
+  const newPublication = useNewPublication();
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues,
@@ -113,30 +116,43 @@ export const RecipeForm = ({
             <FormItem>
               <FormLabel>Publication</FormLabel>
               <FormControl>
-                <Select
-                  disabled={isSubmitting}
-                  value={field.value ? String(field.value) : ""}
-                  onValueChange={(value) => field.onChange(parseInt(value))}
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a publication"></SelectValue>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Publications</SelectLabel>
-                      {publicationOptions?.map((publication) => {
-                        return (
-                          <SelectItem
-                            key={publication.value}
-                            value={String(publication.value)}
-                          >
-                            {publication.label}
-                          </SelectItem>
-                        );
-                      })}
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+                <>
+                  <Select
+                    disabled={isSubmitting}
+                    value={field.value ? String(field.value) : ""}
+                    onValueChange={(value) => field.onChange(parseInt(value))}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a publication"></SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        <SelectLabel>Publications</SelectLabel>
+                        {publicationOptions?.map((publication) => {
+                          return (
+                            <SelectItem
+                              key={publication.value}
+                              value={String(publication.value)}
+                            >
+                              {publication.label}
+                            </SelectItem>
+                          );
+                        })}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                  <Button
+                    onClick={(e) => {
+                      // prevent the recipe sheet from closing - some weird radix-ui Dialog functionality
+                      e.preventDefault();
+                      newPublication.onOpen();
+                    }}
+                    size="default"
+                    className="flex-none bg-green-600"
+                  >
+                    <Plus className="size-4" />
+                  </Button>
+                </>
               </FormControl>
               <FormDescription />
               <FormMessage />
