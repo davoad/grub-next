@@ -73,9 +73,25 @@ export const RecipeForm = ({
 
   const { isSubmitting } = form.formState;
 
+  // Effect 1: Handle initial default values and external defaultValues changes
   useEffect(() => {
-    form.reset(defaultValues);
+    if (defaultValues) {
+        form.reset(defaultValues);
+    }
   }, [defaultValues, form]);
+
+  // Effect 2: Handle newPublicationId after it becomes available in options
+  useEffect(() => {
+    if (newPublication.newPublicationId && publicationOptions.some(p => p.value === newPublication.newPublicationId)) {
+      form.setValue("publicationId", newPublication.newPublicationId, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true
+      });
+      form.clearErrors('publicationId');
+      newPublication.setNewPublicationId(null); // Clear the ID after using it
+    }
+  }, [newPublication.newPublicationId, form, publicationOptions, newPublication.setNewPublicationId]);
 
   const handleSubmit = async (values: FormValues) => {
     await onSubmit?.(values);
@@ -192,7 +208,10 @@ export const RecipeForm = ({
                   value={field.value?.join(", ") ?? ""}
                   onChange={(e) =>
                     field.onChange(
-                      e.target.value.split(",").map((tag) => tag.trim()),
+                      e.target.value
+                        .split(", ")
+                        .map((tag) => tag.trim())
+                        .filter((tag) => tag !== "")
                     )
                   }
                 />
@@ -207,9 +226,10 @@ export const RecipeForm = ({
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Preparation Time (mins)</FormLabel>
+              <FormLabel>Preparation Time (minutes)</FormLabel>
               <FormControl>
                 <Input
+                  type="number"
                   disabled={isSubmitting}
                   placeholder="30"
                   {...field}
@@ -226,11 +246,12 @@ export const RecipeForm = ({
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Cooking Time (mins)</FormLabel>
+              <FormLabel>Cooking Time (minutes)</FormLabel>
               <FormControl>
                 <Input
+                  type="number"
                   disabled={isSubmitting}
-                  placeholder="45"
+                  placeholder="60"
                   {...field}
                   value={field.value ?? ""}
                 />

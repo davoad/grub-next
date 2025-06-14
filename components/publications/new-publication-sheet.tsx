@@ -22,12 +22,13 @@ const formSchema = insertPublicationSchema.pick({
 type FormValues = z.input<typeof formSchema>;
 
 export const NewPublicationSheet = () => {
-  const { isOpen, onClose } = useNewPublication();
+  const { isOpen, onClose, setNewPublicationId } = useNewPublication();
   const queryClient = useQueryClient();
 
   const onSubmit = async (values: FormValues) => {
-    await createPublicationAction(values);
+    const result = await createPublicationAction(values);
     queryClient.invalidateQueries({ queryKey: ["publications"] });
+    setNewPublicationId(result[0].id);
     onClose();
   };
 
