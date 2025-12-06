@@ -28,7 +28,7 @@
     "drizzle-zod": "^0.5.1",
     "lucide": "^0.383.0",
     "lucide-react": "^0.383.0",
-    "next": "^15.0.0-canary.43",
+    "next": "15.6.0-canary.58",
     "react": "^19.0.0-rc-c21bcd627b-20240624",
     "react-dom": "^19.0.0-rc-c21bcd627b-20240624",
     "react-hook-form": "^7.52.0",
