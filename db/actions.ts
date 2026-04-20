@@ -57,7 +57,7 @@ export async function updateRecipeAction(
   id: number,
   data: z.infer<typeof insertRecipeSchema>,
 ) {
-  const userId = auth().userId;
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("User not authenticated");
@@ -75,7 +75,7 @@ export async function updateRecipeAction(
 }
 
 export async function deleteRecipeAction(id: number) {
-  const userId = auth().userId;
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("User not authenticated");
@@ -88,7 +88,7 @@ export async function deleteRecipeAction(id: number) {
 export async function createRecipeAction(
   data: z.infer<typeof insertRecipeSchema>,
 ) {
-  const userId = auth().userId;
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("User not authenticated");
@@ -102,7 +102,7 @@ export async function createRecipeAction(
 export async function getRecipesAction(
   searchText: string | null,
 ): Promise<Recipe[]> {
-  const userId = auth().userId;
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("User not authenticated");
@@ -144,7 +144,7 @@ export async function getRecipesAction(
 }
 
 export async function getRecipeAction(id: number): Promise<SimpleRecipe[]> {
-  const userId = auth().userId;
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("User not authenticated");
@@ -170,7 +170,7 @@ export async function updatePublicationAction(
   id: number,
   data: z.infer<typeof insertPublicationSchema>,
 ) {
-  const userId = auth().userId;
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("User not authenticated");
@@ -188,7 +188,7 @@ export async function updatePublicationAction(
 }
 
 export async function deletePublicationAction(id: number) {
-  const userId = auth().userId;
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("User not authenticated");
@@ -204,7 +204,7 @@ export async function deletePublicationAction(id: number) {
 export async function createPublicationAction(
   data: z.infer<typeof insertPublicationSchema>,
 ) {
-  const userId = auth().userId;
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("User not authenticated");
@@ -217,7 +217,7 @@ export async function createPublicationAction(
 }
 
 export async function getPublicationAction(id: number): Promise<Publication[]> {
-  const userId = auth().userId;
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("User not authenticated");
@@ -239,7 +239,7 @@ export async function getPublicationAction(id: number): Promise<Publication[]> {
 export async function getPublicationsAction(
   searchText: string | null,
 ): Promise<Publication[]> {
-  const userId = auth().userId;
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("User not authenticated");
@@ -274,7 +274,7 @@ export async function createRatingAction(
   recipeId: number,
   data: z.infer<typeof createRatingSchema>,
 ) {
-  const userId = auth().userId;
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("User not authenticated");
@@ -307,7 +307,7 @@ export async function createRatingAction(
 }
 
 export async function getRatingAction(recipeId: number): Promise<Rating[]> {
-  const userId = auth().userId;
+  const { userId } = await auth();
 
   if (!userId) {
     throw new Error("User not authenticated");

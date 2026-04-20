@@ -14,7 +14,7 @@ export const Header = () => {
             <Navigation />
           </div>
           <ClerkLoaded>
-            <UserButton afterSignOutUrl="/" />
+            <UserButton />
           </ClerkLoaded>
           <ClerkLoading>
             <Loader2 className="size-8 animate-spin text-slate-400" />
